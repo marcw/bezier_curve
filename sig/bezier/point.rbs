@@ -1,0 +1,19 @@
+module Bezier
+  class Point
+    @vector: Vector
+
+    def x: -> Numeric
+    def y: -> Numeric
+    def z: -> Numeric
+
+    def +: (Point) -> Point
+    def -: (Point) -> Point
+    def *: (Numeric) -> Point
+
+    def interpolate_to: (Point, Numeric) -> Point
+    def distance_from: (Point) -> Numeric
+    def angle_to: (Point) -> Float
+
+    def magnitude: -> Numeric
+  end
+end
