@@ -1,0 +1,16 @@
+module Bezier
+  class Curve
+    @controls: Array[Point]
+
+    attr_reader controls: Array[Point]
+
+    def dimensions: -> Integer
+
+    def index: -> Point
+    def split_at: (Numeric) -> [Curve, Curve]
+    def points: (count: nil|Integer, tolerance: Float)-> Array[Point]
+    def subdivide: (Numeric) -> Array[Curve]
+    def is_straight?: (Float) -> bool
+    def divergence: -> Float
+  end
+end

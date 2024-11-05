@@ -1,10 +1,10 @@
 $: << File.expand_path("lib")
-require "bezier_curve/version"
+require "bezier/version"
 
 Gem::Specification.new do |s|
   s.name        = 'bezier_curve'
-  s.version     = BezierCurve::VERSION
-  s.date        = BezierCurve::RELEASE_DATE
+  s.version     = Bezier::VERSION
+  s.date        = Bezier::RELEASE_DATE
   s.platform    = Gem::Platform::RUBY
   # require ruby 2 or ruby 3
   s.required_ruby_version = "> 2.0"
@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
   s.files       = Dir["{bin,lib,test}/**/*.{rb,md}"] + Dir["*.{md,rdoc}"] + [ "Rakefile" ]
 
   s.homepage    = "https://github.com/marcuserronius/bezier_curve"
+
+  s.add_runtime_dependency 'matrix'
 
   s.add_development_dependency 'rake', "~> 10.3"
   s.add_development_dependency 'simplecov', "~> 0.10"

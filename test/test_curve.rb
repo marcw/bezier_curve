@@ -1,21 +1,25 @@
 # test functionality of BezierCurve class
 require "test/unit"
-require "bezier_curve"
+require "bezier"
 
 class TestBezierCurve < Test::Unit::TestCase
   # shorthand to create a bezier curve
   def bc(*args)
-    BezierCurve.new(*args)
+    Bezier::Curve.new(*args)
+  end
+
+  def pt(*args)
+    Bezier::Point.new(*args)
   end
 
   def test_initialize_errors
-    assert_raise BezierCurve::ZeroDimensionError do
+    assert_raise Bezier::Curve::ZeroDimensionError do
       bc([], [], [], [])
     end
-    assert_raise BezierCurve::DifferingDimensionError do
+    assert_raise Bezier::Curve::DifferingDimensionError do
       bc([ 1, 2 ], [ 3, 4 ], [ 5, 6, 7 ])
     end
-    assert_raise BezierCurve::InsufficientPointsError do
+    assert_raise Bezier::Curve::InsufficientPointsError do
       bc([ 1, 2, 3 ])
     end
   end
@@ -33,21 +37,22 @@ class TestBezierCurve < Test::Unit::TestCase
   def test_index
     # simple curves that cross the origin
     # degree 1
-    assert_equal [ 0, 0 ], bc([ 1, 1 ], [ -1, -1 ])[0.5]
-    assert_equal [ 0, 0, 0 ], bc([ 1, 1, 1 ], [ -1, -1, -1 ])[0.5]
-    assert_equal [ 0, 0, 0, 0 ], bc([ 1, 1, 1, 1 ], [ -1, -1, -1, -1 ])[0.5]
-    assert_equal [ 0, 0, 0, 0, 0 ], bc([ 1, 1, 1, 1, 1 ], [ -1, -1, -1, -1, -1 ])[0.5]
+    assert_equal pt([ 0, 0 ]), bc([ 1, 1 ], [ -1, -1 ])[0.5]
+    assert_equal pt([ 0, 0, 0 ]), bc([ 1, 1, 1 ], [ -1, -1, -1 ])[0.5]
+    assert_equal pt([ 0, 0, 0, 0 ]), bc([ 1, 1, 1, 1 ], [ -1, -1, -1, -1 ])[0.5]
+    assert_equal pt([ 0, 0, 0, 0, 0 ]), bc([ 1, 1, 1, 1, 1 ], [ -1, -1, -1, -1, -1 ])[0.5]
     # degree 2 (quadratic)
-    assert_equal [ 0, 0 ], bc([ 1, 1 ], [ 0, -1 ], [ -1, 1 ])[0.5]
-    assert_equal [ 0, 0, 0 ], bc([ 1, 1, 1 ], [ 0, 0, -1 ], [ -1, -1, 1 ])[0.5]
-    assert_equal [ 0, 0, 0, 0 ], bc([ 1, 1, 1, 1 ], [ 0, 0, 0, -1 ], [ -1, -1, -1, 1 ])[0.5]
-    assert_equal [ 0, 0, 0, 0, 0 ], bc([ 1, 1, 1, 1, 1 ], [ 0, 0, 0, 0, -1 ], [ -1, -1, -1, -1, 1 ])[0.5]
+    assert_equal pt([ 0, 0 ]), bc([ 1, 1 ], [ 0, -1 ], [ -1, 1 ])[0.5]
+    assert_equal pt([ 0, 0, 0 ]), bc([ 1, 1, 1 ], [ 0, 0, -1 ], [ -1, -1, 1 ])[0.5]
+    assert_equal pt([ 0, 0, 0, 0 ]), bc([ 1, 1, 1, 1 ], [ 0, 0, 0, -1 ], [ -1, -1, -1, 1 ])[0.5]
+    assert_equal pt([ 0, 0, 0, 0, 0 ]), bc([ 1, 1, 1, 1, 1 ], [ 0, 0, 0, 0, -1 ], [ -1, -1, -1, -1, 1 ])[0.5]
     # degree 3 (cubic)
-    assert_equal [ 0, 0 ], bc([ 1, 1 ], [ -1, 1 ], [ 1, -1 ], [ -1, -1 ])[0.5]
-    assert_equal [ 0, 0, 0 ], bc([ 1, 1, 1 ], [ -1, 1, 1 ], [ 1, -1, -1 ], [ -1, -1, -1 ])[0.5]
-    assert_equal [ 0, 0, 0, 0 ], bc([ 1, 1, 1, 1 ], [ -1, 1, 1, 1 ], [ 1, -1, -1, -1 ], [ -1, -1, -1, -1 ])[0.5]
-    assert_equal [ 0, 0, 0, 0, 0 ], bc([ 1, 1, 1, 1, 1 ], [ -1, 1, 1, 1, 1 ], [ 1, -1, -1, -1, -1 ], [ -1, -1, -1, -1, -1 ])[0.5]
+    assert_equal pt([ 0, 0 ]), bc([ 1, 1 ], [ -1, 1 ], [ 1, -1 ], [ -1, -1 ])[0.5]
+    assert_equal pt([ 0, 0, 0 ]), bc([ 1, 1, 1 ], [ -1, 1, 1 ], [ 1, -1, -1 ], [ -1, -1, -1 ])[0.5]
+    assert_equal pt([ 0, 0, 0, 0 ]), bc([ 1, 1, 1, 1 ], [ -1, 1, 1, 1 ], [ 1, -1, -1, -1 ], [ -1, -1, -1, -1 ])[0.5]
+    assert_equal pt([ 0, 0, 0, 0, 0 ]), bc([ 1, 1, 1, 1, 1 ], [ -1, 1, 1, 1, 1 ], [ 1, -1, -1, -1, -1 ], [ -1, -1, -1, -1, -1 ])[0.5]
   end
+
   def test_split_at
     # not going to test specific points, just that the resulting curves are the same
     # degree 1
@@ -71,6 +76,7 @@ class TestBezierCurve < Test::Unit::TestCase
     _c1, _c2 = *c.split_at(0.25)
     assert_equal c.points(count: 9), _c1.points(count: 3)[0, 2] + _c2.points(count: 7)
   end
+
   # does this really need testing? I really hope not. Oh well.
   def test_points_count
     # 1d,o1
