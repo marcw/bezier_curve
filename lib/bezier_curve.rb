@@ -2,8 +2,8 @@
 # A bézier curve library for Ruby, supporting n-dimensional,
 # nth-degree curves.
 
-require 'bezier_curve/version'
-require 'bezier_curve/n_point'
+require "bezier_curve/version"
+require "bezier_curve/n_point"
 
 # A bezier curve. Usage:
 #   c = BezierCurve.new([0,0], [0,1], [1,1])
@@ -33,7 +33,7 @@ class BezierCurve
   # the last control point
   def last()  controls.last;  end
   alias_method :end, :last
-  
+
   # the degree of the curve
   def degree
     controls.size - 1
@@ -49,7 +49,7 @@ class BezierCurve
     pts = controls
     while pts.size > 1
       pts = (0..pts.size-2).map do |i|
-        pts[i].zip(pts[i+1]).map{|a,b| t*(b-a)+a}
+        pts[i].zip(pts[i+1]).map { |a, b| t*(b-a)+a }
       end
     end
     pts[0].to_np
@@ -59,15 +59,15 @@ class BezierCurve
   # divide this bezier curve into two curves, at the given `t`
   def split_at(t)
     pts = controls
-    a,b = [pts.first],[pts.last]
+    a, b = [ pts.first ], [ pts.last ]
     while pts.size > 1
       pts = (0..pts.size-2).map do |i|
-        pts[i].zip(pts[i+1]).map{|a,b| t*(b-a)+a}
+        pts[i].zip(pts[i+1]).map { |a, b| t*(b-a)+a }
       end
       a<<pts.first
       b<<pts.last
     end
-    [BezierCurve.new(*a), BezierCurve.new(*b.reverse)]
+    [ BezierCurve.new(*a), BezierCurve.new(*b.reverse) ]
   end
 
 
@@ -76,12 +76,12 @@ class BezierCurve
   # If you specify `tolerance`, no adjoining line segments will
   # deviate from 180 by an angle of more than the value given (in
   # radians). If unspecified, defaults to `tolerance: 1/64pi` (~3 deg)
-  def points(count:nil, tolerance:Math::PI/64)
+  def points(count: nil, tolerance: Math::PI/64)
     if count
-      (0...count).map{|i| index i/(count-1.0)}
+      (0...count).map { |i| index i/(count-1.0) }
     else
       lines = subdivide(tolerance)
-      lines.map{|seg|seg.first} + [lines.last.last]
+      lines.map { |seg|seg.first } + [ lines.last.last ]
     end
   end
 
@@ -90,15 +90,15 @@ class BezierCurve
   # needed to remove remaining corners.
   def subdivide(tolerance)
     if is_straight? tolerance
-      [self]
+      [ self ]
     else
-      a,b = split_at(0.5).map{|c| c.subdivide(tolerance)}
+      a, b = split_at(0.5).map { |c| c.subdivide(tolerance) }
       # now make sure the angle from a to b is good
-      while a.last.first.angle_to(a.last.last,b.first.last) > tolerance
+      while a.last.first.angle_to(a.last.last, b.first.last) > tolerance
         if a.last.divergence > b.first.divergence
-          a[-1,1] = a[-1].split_at(0.5)
+          a[-1, 1] = a[-1].split_at(0.5)
         else
-          b[0,1]  = b[0].split_at(0.5)
+          b[0, 1]  = b[0].split_at(0.5)
         end
       end
       a+b
@@ -109,10 +109,10 @@ class BezierCurve
   # test this curve to see of it can be considered straight, optionally
   # within the given angular tolerance, in radians
   def is_straight?(tolerance)
-    # normal check for tolerance 
+    # normal check for tolerance
     if divergence <= tolerance
       # maximum wavyness is `degree` - 1; split at `degree` points
-      pts = points(count:degree)
+      pts = points(count: degree)
       # size-3, because we ignore the last 2 points as starting points;
       # check all angles against `tolerance`
       (0..pts.size-3).all? do |i|
@@ -125,7 +125,7 @@ class BezierCurve
 
   # How much this curve diverges from straight, measuring from `t=0.5`
   def divergence
-    first.angle_to(self[0.5],last)
+    first.angle_to(self[0.5], last)
   end
 
   # Indicates an error where the control points are in zero dimensions.
@@ -135,7 +135,7 @@ class BezierCurve
     def initialize
       super "Points given must have at least one dimension"
     end
-    def self.check! pointset
+    def self.check!(pointset)
       raise self if
         pointset[0].size == 0
     end
@@ -147,9 +147,9 @@ class BezierCurve
     def initialize
       super "All points must have the same number of dimensions"
     end
-    def self.check! pointset
+    def self.check!(pointset)
       raise self if
-        pointset[1..-1].any?{|pt| pointset[0].size != pt.size}
+        pointset[1..-1].any? { |pt| pointset[0].size != pt.size }
     end
   end
 
@@ -159,7 +159,7 @@ class BezierCurve
     def initialize
       super "You must supply a minimum of two points"
     end
-    def self.check! pointset
+    def self.check!(pointset)
       raise self if
         pointset.size <= 1
     end
