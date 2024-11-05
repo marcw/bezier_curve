@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.summary     = "N-dimensional, nth-degree Bézier curves"
   s.description = "A Bézier curve library for Ruby, supporting n-dimensional, nth-degree curves"
   s.license     = "MIT"
-  s.author      = "Mark Hubbart"
-  s.email       = "mark.hubbart@gmail.com"
+  s.authors     = ["Mark Hubbart", "Marc Weistroff"]
+  s.email       = ["mark.hubbart@gmail.com", "marc@weistroff.net"]
 
   s.files       = Dir["{bin,lib,test}/**/*.{rb,md}"] + Dir["*.{md,rdoc}"] + [ "Rakefile" ]
 
