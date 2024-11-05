@@ -6,8 +6,7 @@ Gem::Specification.new do |s|
   s.version     = Bezier::VERSION
   s.date        = Bezier::RELEASE_DATE
   s.platform    = Gem::Platform::RUBY
-  # require ruby 2 or ruby 3
-  s.required_ruby_version = "> 2.0"
+  s.required_ruby_version = "> 3.0"
 
   s.summary     = "N-dimensional, nth-degree Bézier curves"
   s.description = "A Bézier curve library for Ruby, supporting n-dimensional, nth-degree curves"
@@ -21,7 +20,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'matrix'
 
-  s.add_development_dependency 'rake', "~> 10.3"
-  s.add_development_dependency 'simplecov', "~> 0.10"
+  s.add_development_dependency 'rake', "~> 13.2"
+  s.add_development_dependency 'simplecov', "~> 0.21"
   s.add_development_dependency 'rubocop-rails-omakase'
 end
