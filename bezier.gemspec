@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.version     = Bezier::VERSION
   s.date        = Bezier::RELEASE_DATE
   s.platform    = Gem::Platform::RUBY
-  s.required_ruby_version = "> 3.0"
+  s.required_ruby_version = "> 2.0"
 
   s.summary     = "N-dimensional, nth-degree Bézier curves"
   s.description = "A Bézier curve library for Ruby, supporting n-dimensional, nth-degree curves"
