@@ -1,5 +1,5 @@
 # bezier_curve
-A bézier curve library for Ruby, supporting n-dimensional, nth-degree curves
+A Bézier curve library for Ruby, supporting n-dimensional, nth-degree curves
 
 A rather simple and small library that should do pretty much anything you need to do with a bezier curve. It supports arbitrary numbers of dimensions, and arbitrary numbers of control points. Even still, it is pretty easy to use. Here's a simple quadratic (1st degree) bezier curve, in 2-dimensional space:
 

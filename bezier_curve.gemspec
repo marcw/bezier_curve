@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.required_ruby_version = "~> 2.0"
   
-  s.summary     = "N-dimensional, nth-degree bézier curves"
-  s.description = "A bézier curve library for Ruby, supporting n-dimensional, nth-degree curves"
+  s.summary     = "N-dimensional, nth-degree Bézier curves"
+  s.description = "A Bézier curve library for Ruby, supporting n-dimensional, nth-degree curves"
   s.license     = "MIT"
   s.author      = "Mark Hubbart"
   s.email       = "mark.hubbart@gmail.com"
