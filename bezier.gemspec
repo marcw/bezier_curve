@@ -1,4 +1,6 @@
-$: << File.expand_path("lib")
+lib = File.expand_path('lib', __dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 require "bezier/version"
 
 Gem::Specification.new do |s|
@@ -14,7 +16,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Mark Hubbart", "Marc Weistroff"]
   s.email       = ["mark.hubbart@gmail.com", "marc@weistroff.net"]
 
-  s.files       = Dir["{bin,lib,test}/**/*.{rb,md}"] + Dir["*.{md,rdoc}"] + [ "Rakefile" ]
+  s.files       = Dir["README.md", "lib/**/*.*"]
 
   s.homepage    = "https://github.com/marcuserronius/bezier_curve"
 
