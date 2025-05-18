@@ -42,8 +42,8 @@ module Bezier
       Point.new(vector - other.vector)
     end
 
-    def *(scalar)
-      Point.new(vector * scalar)
+    def *(other)
+      Point.new(vector * other)
     end
 
     def interpolate_to(other, t)
