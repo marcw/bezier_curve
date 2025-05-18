@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "forwardable"
+
 module Bezier
   # A bezier curve. Usage:
   #   c = Curve.new([0,0], [0,1], [1,1])
@@ -46,8 +48,8 @@ module Bezier
     def index(t)
       pts = controls
       while pts.size > 1
-        pts = (0..pts.size-2).map do |i|
-          pts[i].zip(pts[i+1]).map { |a, b| t*(b-a)+a }
+        pts = (0..pts.size - 2).map do |i|
+          pts[i].zip(pts[i + 1]).map { |a, b| t * (b - a) + a }
         end
       end
       Point.new(pts[0])
@@ -57,16 +59,16 @@ module Bezier
     # divide this bezier curve into two curves, at the given `t`
     def split_at(t)
       pts = controls
-      a, b = [ pts.first ], [ pts.last ]
+      a, b = [pts.first], [pts.last]
       while pts.size > 1
-        pts = (0..pts.size-2).map do |i|
-          pts[i].zip(pts[i+1]).map { |a, b| t*(b-a)+a }
+        pts = (0..pts.size - 2).map do |i|
+          pts[i].zip(pts[i + 1]).map { |a, b| t * (b - a) + a }
         end
         a << pts.first
         b << pts.last
       end
 
-      [ Curve.new(*a), Curve.new(*b.reverse) ]
+      [Curve.new(*a), Curve.new(*b.reverse)]
     end
 
     # Returns a list of points on this curve. If you specify `count`,
@@ -74,12 +76,12 @@ module Bezier
     # If you specify `tolerance`, no adjoining line segments will
     # deviate from 180 by an angle of more than the value given (in
     # radians). If unspecified, defaults to `tolerance: 1/64pi` (~3 deg)
-    def points(count: nil, tolerance: Math::PI/64)
+    def points(count: nil, tolerance: Math::PI / 64)
       if count
-        (0...count).map { |i| index i/(count-1.0) }
+        (0...count).map { |i| index i / (count - 1.0) }
       else
         lines = subdivide(tolerance)
-        lines.map { |seg| seg.first } + [ lines.last.last ]
+        lines.map { |seg| seg.first } + [lines.last.last]
       end
     end
 
@@ -87,7 +89,7 @@ module Bezier
     # given tolerance value, in radians. Then, subdivides further as
     # needed to remove remaining corners.
     def subdivide(tolerance)
-      return [ self ] if is_straight? tolerance
+      return [self] if is_straight? tolerance
 
       a, b = split_at(0.5).map { |c| c.subdivide(tolerance) }
       # now make sure the angle from a to b is good
@@ -95,12 +97,11 @@ module Bezier
         if a.last.divergence > b.first.divergence
           a[-1, 1] = a[-1].split_at(0.5)
         else
-          b[0, 1]  = b[0].split_at(0.5)
+          b[0, 1] = b[0].split_at(0.5)
         end
       end
-      a+b
+      a + b
     end
-
 
     # test this curve to see of it can be considered straight, optionally
     # within the given angular tolerance, in radians
@@ -111,8 +112,8 @@ module Bezier
       pts = points(count: degree)
       # size-3, because we ignore the last 2 points as starting points;
       # check all angles against `tolerance`
-      (0..pts.size-3).all? do |i|
-        pts[i].angle_to(pts[i+1], pts[i+2]) < tolerance
+      (0..pts.size - 3).all? do |i|
+        pts[i].angle_to(pts[i + 1], pts[i + 2]) < tolerance
       end
     end
 
@@ -126,7 +127,7 @@ module Bezier
     # points.
     class ZeroDimensionError < ArgumentError
       def initialize
-        super "Points given must have at least one dimension"
+        super("Points given must have at least one dimension")
       end
 
       def self.check!(pointset)
@@ -139,12 +140,12 @@ module Bezier
     # dimensions, which makes them impossible to use.
     class DifferingDimensionError < ArgumentError
       def initialize
-        super "All points must have the same number of dimensions"
+        super("All points must have the same number of dimensions")
       end
 
       def self.check!(pointset)
         raise self if
-          pointset[1..-1].any? { |pt| pointset[0].size != pt.size }
+          pointset[1..].any? { |pt| pointset[0].size != pt.size }
       end
     end
 
@@ -152,7 +153,7 @@ module Bezier
     # for a first-degree bezier.
     class InsufficientPointsError < ArgumentError
       def initialize
-        super "You must supply a minimum of two points"
+        super("You must supply a minimum of two points")
       end
 
       def self.check!(pointset)
