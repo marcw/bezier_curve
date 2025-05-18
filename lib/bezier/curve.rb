@@ -145,7 +145,7 @@ module Bezier
 
       def self.check!(pointset)
         raise self if
-          pointset[1..-1].any? { |pt| pointset[0].size != pt.size }
+          pointset[1..].any? { |pt| pointset[0].size != pt.size }
       end
     end
 
