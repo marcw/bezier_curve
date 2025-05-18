@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "forwardable"
+
 module Bezier
   # A bezier curve. Usage:
   #   c = Curve.new([0,0], [0,1], [1,1])

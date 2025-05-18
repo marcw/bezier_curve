@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/marcuserronius/bezier_curve"
 
   s.add_runtime_dependency 'matrix'
+  s.add_runtime_dependency 'forwardable'
 
   s.add_development_dependency 'rake', "~> 13.2"
   s.add_development_dependency 'simplecov', "~> 0.21"
