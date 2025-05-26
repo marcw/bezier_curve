@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["README.md", "lib/**/*.*"]
 
-  s.homepage = "https://github.com/marcuserronius/bezier_curve"
+  s.homepage = "https://github.com/marcw/bezier_curve"
 
   s.add_runtime_dependency "matrix"
   s.add_runtime_dependency "forwardable"
