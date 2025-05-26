@@ -60,3 +60,7 @@ get the idea.
 I am interested in making this the most useful ruby library for working with bezier curves. If you need help, or have a
 suggestion for improvement, feel free to file an issue on Github (https://github.com/marcuserronius/bezier_curve/), or
 contact me directly.
+
+## Note
+
+This project was forked from https://github.com/marcuserronius/bezier_curve/.
