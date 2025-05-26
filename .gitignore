@@ -1,3 +1,4 @@
 Gemfile.lock
 *.gem
 coverage
+.gem_rbs_collection

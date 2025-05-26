@@ -1,16 +1,36 @@
 module Bezier
   class Curve
+    extend Forwardable
     @controls: Array[Point]
 
     attr_reader controls: Array[Point]
 
-    def dimensions: -> Integer
+    def initialize: (*(Array[Numeric])) -> void
 
-    def index: -> Point
-    def split_at: (Numeric) -> [Curve, Curve]
-    def points: (count: nil|Integer, tolerance: Float)-> Array[Point]
-    def subdivide: (Numeric) -> Array[Curve]
+    def first: () -> Point
+    def start: () -> Point
+    def last: () -> Point
+    def end: () -> Point
+
+    def dimensions: -> Integer
+    def degree: -> Integer
+
+    def index: (Float | Integer) -> Point
+    def []: (Float | Integer) -> Point
+
+    def split_at: (Float) -> [Curve, Curve]
+    def points: (?count: nil|Integer, ?tolerance: Float)-> Array[Point]
+    def subdivide: (Float) -> Array[Curve]
     def is_straight?: (Float) -> bool
     def divergence: -> Float
+
+    class ZeroDimensionError < ArgumentError
+    end
+
+    class InsufficientPointsError < ArgumentError
+    end
+
+    class DifferingDimensionError < ArgumentError
+    end
   end
 end

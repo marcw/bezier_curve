@@ -15,7 +15,7 @@ module Bezier
     alias_method :to_ary, :to_a
 
     def initialize(*args)
-      @vector = ::Vector.elements(*args)
+      @vector = ::Vector.elements(*args) # steep:ignore
     end
 
     def x
@@ -69,8 +69,10 @@ module Bezier
       Math.asin(dz / (2 * d1)) * 2
     end
 
+    # steep:ignore:start
     def zip(other)
       to_a.zip(other.to_a)
     end
+    # steep:ignore:end
   end
 end

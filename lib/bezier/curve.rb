@@ -18,9 +18,11 @@ module Bezier
     # create a new curve, from a list of points.
     def initialize(*controls)
       # check for argument errors
-      ZeroDimensionError.check! controls
-      DifferingDimensionError.check! controls
-      InsufficientPointsError.check! controls
+      raise InsufficientPointsError if controls.size <= 1
+      raise ZeroDimensionError if controls[0].size == 0
+      # steep:ignore:start
+      raise DifferingDimensionError if controls[1..].any? { |pt| controls[0].size != pt.size }
+      # steep:ignore:end
 
       @controls = controls.map { |item| Point.new(item) }
     end
@@ -48,9 +50,11 @@ module Bezier
     def index(t)
       pts = controls
       while pts.size > 1
+        # steep:ignore:start
         pts = (0..pts.size - 2).map do |i|
           pts[i].zip(pts[i + 1]).map { |a, b| t * (b - a) + a }
         end
+        # steep:ignore:end
       end
       Point.new(pts[0])
     end
@@ -59,16 +63,22 @@ module Bezier
     # divide this bezier curve into two curves, at the given `t`
     def split_at(t)
       pts = controls
+      # @type var a: Array[Point]
+      # @type var b: Array[Point]
       a, b = [pts.first], [pts.last]
       while pts.size > 1
+        # steep:ignore:start
         pts = (0..pts.size - 2).map do |i|
           pts[i].zip(pts[i + 1]).map { |a, b| t * (b - a) + a }
         end
         a << pts.first
         b << pts.last
+        # steep:ignore:end
       end
 
+      # steep:ignore:start
       [Curve.new(*a), Curve.new(*b.reverse)]
+      # steep:ignore:end
     end
 
     # Returns a list of points on this curve. If you specify `count`,
@@ -89,8 +99,10 @@ module Bezier
     # given tolerance value, in radians. Then, subdivides further as
     # needed to remove remaining corners.
     def subdivide(tolerance)
-      return [self] if is_straight? tolerance
+      return [self] if is_straight?(tolerance)
 
+      # @type var a: Array[Curve]
+      # @type var b: Array[Curve]
       a, b = split_at(0.5).map { |c| c.subdivide(tolerance) }
       # now make sure the angle from a to b is good
       while a.last.first.angle_to(a.last.last, b.first.last) > tolerance
@@ -126,39 +138,24 @@ module Bezier
     # Sounds silly, but you never know, when software is generating the
     # points.
     class ZeroDimensionError < ArgumentError
-      def initialize
-        super("Points given must have at least one dimension")
-      end
-
-      def self.check!(pointset)
-        raise self if
-          pointset[0].size == 0
+      def message
+        "Points given must have at least one dimension"
       end
     end
 
     # Indicates that the points do not all have the same number of
     # dimensions, which makes them impossible to use.
     class DifferingDimensionError < ArgumentError
-      def initialize
-        super("All points must have the same number of dimensions")
-      end
-
-      def self.check!(pointset)
-        raise self if
-          pointset[1..].any? { |pt| pointset[0].size != pt.size }
+      def message
+        "All points must have the same number of dimensions"
       end
     end
 
     # Indicates that there aren't enough control points; minimum of two
     # for a first-degree bezier.
     class InsufficientPointsError < ArgumentError
-      def initialize
-        super("You must supply a minimum of two points")
-      end
-
-      def self.check!(pointset)
-        raise self if
-          pointset.size <= 1
+      def message
+        "You must supply a minimum of two points"
       end
     end
   end
