@@ -26,4 +26,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "simplecov", "~> 0.21"
   s.add_development_dependency "standard"
   s.add_development_dependency "test-unit"
+  s.add_development_dependency "steep"
 end

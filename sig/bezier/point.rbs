@@ -1,19 +1,35 @@
+type vector = untyped
+
 module Bezier
+  VERSION: String
+  RELEASE_DATE: String
+
   class Point
-    @vector: Vector
+    extend Forwardable
 
-    def x: -> Numeric
-    def y: -> Numeric
-    def z: -> Numeric
+    attr_reader vector: vector
 
+    def to_a: () -> Array[Float | Integer]
+    def to_ary: () -> Array[Float | Integer]
+    def size: () -> Integer
+
+    def initialize: (untyped) -> void
+
+    def x: () -> Numeric
+    def y: () -> Numeric
+    def z: () -> Numeric
+
+    def ==: (Point) -> bool
     def +: (Point) -> Point
     def -: (Point) -> Point
     def *: (Numeric) -> Point
 
-    def interpolate_to: (Point, Numeric) -> Point
-    def distance_from: (Point) -> Numeric
-    def angle_to: (Point) -> Float
+    def interpolate_to: (Point, Float | Integer) -> Point
+    def distance_from: (Point) -> Float
+    def angle_to: (Point, Point) -> Float
 
-    def magnitude: -> Numeric
+    def magnitude: -> Float
+
+    def zip: (Point) -> Array[Array[Numeric]]
   end
 end
