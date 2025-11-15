@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "bezier/version"
 
 Gem::Specification.new do |s|
-  s.name = "bezier_curve"
+  s.name = "bezier"
   s.version = Bezier::VERSION
   s.platform = Gem::Platform::RUBY
   s.required_ruby_version = ">= 3.2"
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["README.md", "lib/**/*.*"]
 
-  s.homepage = "https://github.com/marcw/bezier_curve"
+  s.homepage = "https://github.com/marcw/bezier"
 
   s.add_runtime_dependency "forwardable"
   s.add_runtime_dependency "matrix"

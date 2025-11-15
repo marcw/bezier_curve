@@ -1,4 +1,4 @@
-# bezier_curve
+# Bezier
 
 A Bézier curve library for Ruby, supporting n-dimensional, nth-degree curves
 
@@ -60,4 +60,4 @@ get the idea.
 
 ## Note
 
-This project was forked from https://github.com/marcuserronius/bezier_curve/.
+This project was forked from <https://github.com/marcuserronius/bezier_curve/>.
